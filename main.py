@@ -17,11 +17,13 @@ def onclick(event):
     if event.button == 1:
         try:
             response = client.invoke(
-                FunctionName='arn:aws:lambda:.....',
+                FunctionName='arn:aws:lambda:.....',  # the lambda function to be invoked
                 Payload=test_obj,
             )
             print(response["StatusCode"])
             response_dict = json.loads(json.loads(response['Payload'].read().decode()))
+            # The following depends on what the lambda returns. The example here returns Date, Users on that date,
+            # and usage stats
             x = [item["Date"].split("T")[0].split('020-')[1] for item in response_dict]
             y = [item["DailyUsers"] for item in response_dict]
             y2 = [item["MedianUsage"] for item in response_dict]
